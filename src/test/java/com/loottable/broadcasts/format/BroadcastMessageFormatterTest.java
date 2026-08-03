@@ -15,4 +15,11 @@ public class BroadcastMessageFormatterTest
 		BroadcastMessageFormatter formatter = new BroadcastMessageFormatter();
 		assertEquals("News: Nicholas has achieved level 99 in Attack.", formatter.format(event));
 	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void rejectsNullEvent()
+	{
+		BroadcastMessageFormatter formatter = new BroadcastMessageFormatter();
+		formatter.format(null);
+	}
 }
