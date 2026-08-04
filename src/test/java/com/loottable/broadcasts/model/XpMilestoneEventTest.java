@@ -3,7 +3,7 @@ package com.loottable.broadcasts.model;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
-public class XpMilestoneEventTest 
+public class XpMilestoneEventTest
 {
     @Test
     public void storesValidXpMilestoneValues()
@@ -12,6 +12,7 @@ public class XpMilestoneEventTest
         assertEquals("Nicholas", event.getPlayerName());
         assertEquals(Skill.ATTACK, event.getSkill());
         assertEquals(99, event.getLevel());
+        assertEquals(BroadcastEventType.XP_MILESTONE, event.getEventType());
     }
 
     @Test
@@ -58,6 +59,3 @@ public class XpMilestoneEventTest
         new XpMilestoneEvent("Nicholas", Skill.ATTACK, 127);
     }
 }
-
-
-
