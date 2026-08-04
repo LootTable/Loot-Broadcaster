@@ -3,6 +3,7 @@ package com.loottable.broadcasts.format;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
+import com.loottable.broadcasts.model.PetDropEvent;
 import com.loottable.broadcasts.model.Skill;
 import com.loottable.broadcasts.model.XpMilestoneEvent;
 
@@ -21,5 +22,13 @@ public class BroadcastMessageFormatterTest
 	{
 		BroadcastMessageFormatter formatter = new BroadcastMessageFormatter();
 		formatter.format(null);
+	}
+
+	@Test
+	public void petDropBroadcastMessage()
+	{
+		PetDropEvent event = new PetDropEvent("Nicholas", "Rocky", 1000000);
+		BroadcastMessageFormatter formatter = new BroadcastMessageFormatter();
+		assertEquals("News: Nicholas has gotten Rocky at 1,000,000 xp!", formatter.format(event));
 	}
 }
