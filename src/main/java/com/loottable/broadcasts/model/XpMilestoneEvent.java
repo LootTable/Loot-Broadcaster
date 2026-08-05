@@ -43,7 +43,7 @@ public class XpMilestoneEvent implements BroadcastEvent
 	public Skill getSkill()
 	{
 		return skill;
-	} 
+	}
 
 	public int getLevel()
 	{
