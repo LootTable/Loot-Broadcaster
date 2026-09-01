@@ -3,7 +3,9 @@ package com.loottable.broadcasts.format;
 import com.loottable.broadcasts.model.BroadcastEvent;
 import com.loottable.broadcasts.model.BroadcastEventType;
 import com.loottable.broadcasts.model.ItemDropEvent;
+import com.loottable.broadcasts.model.OverallXpMilestoneEvent;
 import com.loottable.broadcasts.model.PetDropEvent;
+import com.loottable.broadcasts.model.SkillXpMilestoneEvent;
 import com.loottable.broadcasts.model.XpMilestoneEvent;
 
 public class BroadcastMessageFormatter
@@ -27,6 +29,18 @@ public class BroadcastMessageFormatter
 			return formatPetDrop(petEvent);
 		}
 
+		if (event.getEventType() == BroadcastEventType.SKILL_XP_MILESTONE)
+		{
+			SkillXpMilestoneEvent skillXpEvent = (SkillXpMilestoneEvent) event;
+			return formatSkillXpMilestone(skillXpEvent);
+		}
+
+		if (event.getEventType() == BroadcastEventType.OVERALL_XP_MILESTONE)
+		{
+			OverallXpMilestoneEvent overallXpEvent = (OverallXpMilestoneEvent) event;
+			return formatOverallXpMilestone(overallXpEvent);
+		}
+
 		if (event.getEventType() == BroadcastEventType.ITEM_DROP)
 		{
 			ItemDropEvent itemEvent = (ItemDropEvent) event;
@@ -38,7 +52,7 @@ public class BroadcastMessageFormatter
 
 	private String formatXpMilestone(XpMilestoneEvent xpEvent)
 	{
-		return "News: " + xpEvent.getPlayerName() + " has achieved level " + xpEvent.getLevel() + " in " + xpEvent.getSkill().getDisplayName() + ".";
+		return "News: " + xpEvent.getPlayerName() + " has achieved level " + xpEvent.getLevel() + " in " + xpEvent.getSkill().getName() + ".";
 	}
 
 	private String formatPetDrop(PetDropEvent petEvent)
@@ -47,9 +61,26 @@ public class BroadcastMessageFormatter
 		return "News: " + petEvent.getPlayerName() + " has gotten " + petEvent.getPetName() + " at " + formattedXp + " xp!";
 	}
 
+	private String formatSkillXpMilestone(SkillXpMilestoneEvent skillXpEvent)
+	{
+		String formattedXp = String.format("%,d", skillXpEvent.getXp());
+		return "News: " + skillXpEvent.getPlayerName() + " has reached " + formattedXp + " " + skillXpEvent.getSkill().getName() + " XP.";
+	}
+
+	private String formatOverallXpMilestone(OverallXpMilestoneEvent overallXpEvent)
+	{
+		String formattedXp = String.format("%,d", overallXpEvent.getTotalXp());
+		return "News: " + overallXpEvent.getPlayerName() + " has reached " + formattedXp + " total XP.";
+	}
+
 	private String formatItemDrop(ItemDropEvent dropEvent)
 	{
 		String formattedSourceCount = String.format("%,d", dropEvent.getSourceCount());
-		return "News: " + dropEvent.getPlayerName() + " has gotten a " + dropEvent.getItemName() + " drop at " + formattedSourceCount + "kc!";
+		if (dropEvent.getQuantity() > 1)
+		{
+			return "News: " + dropEvent.getPlayerName() + " received " + dropEvent.getQuantity() + " " + dropEvent.getItemName() + " drops from " + dropEvent.getSourceName() + " at " + formattedSourceCount + "kc!";
+		}
+
+		return "News: " + dropEvent.getPlayerName() + " received " + dropEvent.getItemName() + " from " + dropEvent.getSourceName() + " at " + formattedSourceCount + "kc!";
 	}
 }
