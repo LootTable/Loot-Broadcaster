@@ -36,7 +36,7 @@ tasks.register('run', JavaExec) {
 	classpath = sourceSets.test.runtimeClasspath
 	mainClass = pluginMainClass
 
-	jvmArgs "-ea"
+	jvmArgs "-ea", "--add-exports=java.desktop/com.apple.eawt=ALL-UNNAMED"
 	args "--developer-mode", "--debug"
 }
 
@@ -65,4 +65,3 @@ tasks.register('shadowJar', Jar) {
 	archiveClassifier.set('shadow')
 	archiveFileName.set("${rootProject.name}-${project.version}-all.jar")
 }
-

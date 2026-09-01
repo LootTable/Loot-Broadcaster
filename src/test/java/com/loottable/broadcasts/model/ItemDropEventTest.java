@@ -8,40 +8,60 @@ public class ItemDropEventTest
 	@Test
 	public void storesValidItemDropValues()
 	{
-		ItemDropEvent event = new ItemDropEvent("Nicholas", "Bandos Godsword", 10);
+		ItemDropEvent event = new ItemDropEvent("Nicholas", "Bandos Godsword", "General Graardor", 431, 1);
 		assertEquals("Nicholas", event.getPlayerName());
 		assertEquals("Bandos Godsword", event.getItemName());
-		assertEquals(10, event.getSourceCount());
+		assertEquals("General Graardor", event.getSourceName());
+		assertEquals(431, event.getSourceCount());
+		assertEquals(1, event.getQuantity());
 		assertEquals(BroadcastEventType.ITEM_DROP, event.getEventType());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void rejectsBlankPlayerName()
 	{
-		new ItemDropEvent("", "Bandos Godsword", 10);
+		new ItemDropEvent("", "Bandos Godsword", "General Graardor", 431, 1);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void rejectsNullPlayerName()
 	{
-		new ItemDropEvent(null, "Bandos Godsword", 10);
+		new ItemDropEvent(null, "Bandos Godsword", "General Graardor", 431, 1);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void rejectsBlankItemName()
 	{
-		new ItemDropEvent("Nicholas", "", 10);
+		new ItemDropEvent("Nicholas", "", "General Graardor", 431, 1);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void rejectsNullItemName()
 	{
-		new ItemDropEvent("Nicholas", null, 10);
+		new ItemDropEvent("Nicholas", null, "General Graardor", 431, 1);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void rejectsBlankSourceName()
+	{
+		new ItemDropEvent("Nicholas", "Bandos Godsword", "", 431, 1);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void rejectsNullSourceName()
+	{
+		new ItemDropEvent("Nicholas", "Bandos Godsword", null, 431, 1);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void rejectsBelowOneSourceCount()
 	{
-		new ItemDropEvent("Nicholas", "Bandos Godsword", 0);
+		new ItemDropEvent("Nicholas", "Bandos Godsword", "General Graardor", 0, 1);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void rejectsBelowOneQuantity()
+	{
+		new ItemDropEvent("Nicholas", "Bandos Godsword", "General Graardor", 431, 0);
 	}
 }

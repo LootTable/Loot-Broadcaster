@@ -1,41 +1,42 @@
 package com.loottable.broadcasts.model;
 
+import net.runelite.api.Experience;
 import net.runelite.api.Skill;
 
-public class XpMilestoneEvent implements BroadcastEvent
+public class SkillXpMilestoneEvent implements BroadcastEvent
 {
 	private final String playerName;
 	private final Skill skill;
-	private final int level;
+	private final int xp;
 
-	public XpMilestoneEvent(String playerName, Skill skill, int level)
+	public SkillXpMilestoneEvent(String playerName, Skill skill, int xp)
 	{
 		if (playerName == null || playerName.isBlank())
 		{
 			throw new IllegalArgumentException("playerName must not be null or blank");
 		}
-		
+
 		if (skill == null)
 		{
 			throw new IllegalArgumentException("skill must not be null");
 		}
-		
-		if (level < 1 || level > 126)
+
+		if (xp < 0 || xp > Experience.MAX_SKILL_XP)
 		{
-			throw new IllegalArgumentException("level can't be below 1 or higher than 126");
+			throw new IllegalArgumentException("xp must be between 0 and 200,000,000");
 		}
-			
+
 		this.playerName = playerName;
 		this.skill = skill;
-		this.level = level;
+		this.xp = xp;
 	}
 
 	@Override
 	public BroadcastEventType getEventType()
 	{
-		return BroadcastEventType.XP_MILESTONE;
+		return BroadcastEventType.SKILL_XP_MILESTONE;
 	}
-	
+
 	@Override
 	public String getPlayerName()
 	{
@@ -47,8 +48,8 @@ public class XpMilestoneEvent implements BroadcastEvent
 		return skill;
 	}
 
-	public int getLevel()
+	public int getXp()
 	{
-		return level;
+		return xp;
 	}
 }

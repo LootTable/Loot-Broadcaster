@@ -3,6 +3,9 @@ package com.loottable.broadcasts.model;
 import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
+import net.runelite.api.Skill;
+
+
 public class XpMilestoneEventTest
 {
     @Test
