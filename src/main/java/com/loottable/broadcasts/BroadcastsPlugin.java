@@ -10,12 +10,14 @@ import javax.inject.Inject;
 import com.google.inject.Provides;
 import com.loottable.broadcasts.detection.NotableDropRules;
 import com.loottable.broadcasts.detection.OverallXpMilestoneDetector;
+import com.loottable.broadcasts.detection.PetDropDetector;
 import com.loottable.broadcasts.detection.SkillXpMilestoneDetector;
 import com.loottable.broadcasts.detection.XpMilestoneDetector;
 import com.loottable.broadcasts.format.BroadcastMessageFormatter;
 import com.loottable.broadcasts.model.BroadcastEvent;
 import com.loottable.broadcasts.model.ItemDropEvent;
 import com.loottable.broadcasts.model.OverallXpMilestoneEvent;
+import com.loottable.broadcasts.model.PetDropEvent;
 import com.loottable.broadcasts.model.SkillXpMilestoneEvent;
 import com.loottable.broadcasts.model.XpMilestoneEvent;
 
@@ -26,6 +28,7 @@ import net.runelite.api.GameState;
 import net.runelite.api.ItemComposition;
 import net.runelite.api.Player;
 import net.runelite.api.Skill;
+import net.runelite.api.events.ChatMessage;
 import net.runelite.api.events.GameStateChanged;
 import net.runelite.api.events.StatChanged;
 import net.runelite.client.chat.ChatMessageManager;
@@ -48,6 +51,7 @@ public class BroadcastsPlugin extends Plugin
 	private final XpMilestoneDetector xpMilestoneDetector = new XpMilestoneDetector();
 	private final SkillXpMilestoneDetector skillXpMilestoneDetector = new SkillXpMilestoneDetector();
 	private final OverallXpMilestoneDetector overallXpMilestoneDetector = new OverallXpMilestoneDetector();
+	private final PetDropDetector petDropDetector = new PetDropDetector();
 	private final BroadcastMessageFormatter formatter = new BroadcastMessageFormatter();
 	private final Map<Skill, Integer> lastKnownVirtualLevels = new EnumMap<>(Skill.class);
 	private final Map<Skill, Integer> lastKnownXp = new EnumMap<>(Skill.class);
@@ -93,6 +97,7 @@ public class BroadcastsPlugin extends Plugin
 			lastKnownVirtualLevels.clear();
 			lastKnownXp.clear();
 			lastKnownOverallXp = null;
+			petDropDetector.reset();
 			return;
 		}
 		
@@ -238,6 +243,47 @@ public class BroadcastsPlugin extends Plugin
 		}
 	}
 	
+	@Subscribe
+	public void onChatMessage(ChatMessage event)
+	{
+		if (!config.enableNetworking())
+		{
+			return;
+		}
+
+		if (!config.sendPetDrops())
+		{
+			return;
+		}
+
+		if (event.getType() != ChatMessageType.GAMEMESSAGE)
+		{
+			return;
+		}
+
+		String message = event.getMessage();
+		if (message == null || message.isBlank())
+		{
+			return;
+		}
+
+		Optional<String> petName = petDropDetector.detect(message);
+		if (petName.isEmpty())
+		{
+			return;
+		}
+
+		Optional<String> playerName = getLocalPlayerName();
+		if (playerName.isEmpty())
+		{
+			petDropDetector.reset();
+			return;
+		}
+
+		PetDropEvent petDropEvent = new PetDropEvent(playerName.get(), petName.get());
+		queueBroadcastMessage(petDropEvent);
+	}
+
 	private void queueBroadcastMessage(BroadcastEvent eventType)
 	{
 		String formattedMessage = formatter.format(eventType);

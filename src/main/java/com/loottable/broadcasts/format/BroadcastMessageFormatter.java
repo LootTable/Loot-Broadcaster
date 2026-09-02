@@ -57,8 +57,7 @@ public class BroadcastMessageFormatter
 
 	private String formatPetDrop(PetDropEvent petEvent)
 	{
-		String formattedXp = String.format("%,d", petEvent.getXpAtDrop());
-		return "News: " + petEvent.getPlayerName() + " has gotten " + petEvent.getPetName() + " at " + formattedXp + " xp!";
+		return "News: " + petEvent.getPlayerName() + " received " + petEvent.getPetName() + "!";
 	}
 
 	private String formatSkillXpMilestone(SkillXpMilestoneEvent skillXpEvent)

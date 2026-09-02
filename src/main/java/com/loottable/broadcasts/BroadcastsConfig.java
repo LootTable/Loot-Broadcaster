@@ -62,7 +62,7 @@ public interface BroadcastsConfig extends Config
 	@ConfigItem(
 		keyName = "sendPetDrops",
 		name = "Send pet drops",
-		description = "Allows the plugin to send your pet drop broadcasts to others"
+		description = "(TURN ON UNTRADEABLE LOOT NOTIFICATIONS) Allows the plugin to send your pet drop broadcasts to others."
 	)
 	default boolean sendPetDrops()
 	{
