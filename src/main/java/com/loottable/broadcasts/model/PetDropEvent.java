@@ -4,9 +4,8 @@ public class PetDropEvent implements BroadcastEvent
 {
 	private final String playerName;
 	private final String petName;
-	private final int xpAtDrop;
 
-	public PetDropEvent(String playerName, String petName, int xpAtDrop)
+	public PetDropEvent(String playerName, String petName)
 	{
 		if (playerName == null || playerName.isBlank())
 		{
@@ -18,14 +17,8 @@ public class PetDropEvent implements BroadcastEvent
 			throw new IllegalArgumentException("pet must not be null or blank");
 		}
 
-		if (xpAtDrop < 1)
-		{
-			throw new IllegalArgumentException("xp can't be lower than 1");
-		}
-
 		this.playerName = playerName;
 		this.petName = petName;
-		this.xpAtDrop = xpAtDrop;
 	}
 
 	@Override
@@ -43,10 +36,5 @@ public class PetDropEvent implements BroadcastEvent
 	public String getPetName()
 	{
 		return petName;
-	}
-
-	public int getXpAtDrop()
-	{
-		return xpAtDrop;
 	}
 }

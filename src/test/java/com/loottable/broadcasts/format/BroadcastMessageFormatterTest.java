@@ -31,9 +31,9 @@ public class BroadcastMessageFormatterTest
 	@Test
 	public void petDropBroadcastMessage()
 	{
-		PetDropEvent event = new PetDropEvent("Nicholas", "Rocky", 1000000);
+		PetDropEvent event = new PetDropEvent("Nicholas", "Rocky");
 		BroadcastMessageFormatter formatter = new BroadcastMessageFormatter();
-		assertEquals("News: Nicholas has gotten Rocky at 1,000,000 xp!", formatter.format(event));
+		assertEquals("News: Nicholas received Rocky!", formatter.format(event));
 	}
 
 	@Test

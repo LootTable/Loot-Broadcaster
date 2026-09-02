@@ -8,40 +8,33 @@ public class PetDropEventTest
 	@Test
 	public void storesValidPetDropValues()
 	{
-		PetDropEvent event = new PetDropEvent("Nicholas", "Rocky", 1000000);
+		PetDropEvent event = new PetDropEvent("Nicholas", "Rocky");
 		assertEquals("Nicholas", event.getPlayerName());
 		assertEquals("Rocky", event.getPetName());
-		assertEquals(1000000, event.getXpAtDrop());
 		assertEquals(BroadcastEventType.PET_DROP, event.getEventType());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void rejectsBlankPlayerName()
 	{
-		new PetDropEvent("", "Rocky", 1000000);
+		new PetDropEvent("", "Rocky");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void rejectsNullPlayerName()
 	{
-		new PetDropEvent(null, "Rocky", 1000000);
+		new PetDropEvent(null, "Rocky");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void rejectsBlankPetName()
 	{
-		new PetDropEvent("Nicholas", "", 1000000);
+		new PetDropEvent("Nicholas", "");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void rejectsNullPetName()
 	{
-		new PetDropEvent("Nicholas", null, 1000000);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void rejectsBelowOneXpAtDrop()
-	{
-		new PetDropEvent("Nicholas", "Rocky", 0);
+		new PetDropEvent("Nicholas", null);
 	}
 }
