@@ -92,21 +92,23 @@ public class BroadcastsPlugin extends Plugin
 	@Subscribe
 	public void onGameStateChanged(GameStateChanged event)
 	{
-		if( event.getGameState() == GameState.LOGIN_SCREEN)
+		if (event.getGameState() == GameState.LOGIN_SCREEN)
 		{
+			// Skill and pet state belong to a login session.
+			// Clear them when the player leaves the game world.
 			lastKnownVirtualLevels.clear();
 			lastKnownXp.clear();
 			lastKnownOverallXp = null;
 			petDropDetector.reset();
 			return;
 		}
-		
-		if ( event.getGameState() != GameState.LOGGED_IN)
+
+		if (event.getGameState() != GameState.LOGGED_IN)
 		{
 			return;
 		}
 
-		if ( !config.enableNetworking())
+		if (!config.enableNetworking())
 		{
 			return;
 		}
@@ -121,17 +123,17 @@ public class BroadcastsPlugin extends Plugin
 	@Subscribe
 	public void onStatChanged(StatChanged event)
 	{
-		if ( !config.enableNetworking())
+		if (!config.enableNetworking())
 		{
 			return;
 		}
-		
+
 		Player player = client.getLocalPlayer();
 		if (player == null)
 		{
 			return;
 		}
-		
+
 		String playerName = player.getName();
 		Skill skill = event.getSkill();
 		int currentXp = event.getXp();
@@ -206,7 +208,7 @@ public class BroadcastsPlugin extends Plugin
 		{
 			return;
 		}
-	
+
 		Optional<String> playerName = getLocalPlayerName();
 		if (playerName.isEmpty())
 		{
@@ -242,7 +244,7 @@ public class BroadcastsPlugin extends Plugin
 			queueBroadcastMessage(notableDrop);
 		}
 	}
-	
+
 	@Subscribe
 	public void onChatMessage(ChatMessage event)
 	{
@@ -299,6 +301,8 @@ public class BroadcastsPlugin extends Plugin
 	{
 		for (Skill skill : Skill.values())
 		{
+			// StatChanged only tells us what changes later.
+			// Seed the baseline from the current client state.
 			int xp = client.getSkillExperience(skill);
 			int virtualLevel = Experience.getLevelForXp(xp);
 			lastKnownVirtualLevels.put(skill, virtualLevel);
@@ -342,6 +346,7 @@ public class BroadcastsPlugin extends Plugin
 
 	private int getKillCount(String sourceName)
 	{
+		// RuneLite stores boss kill counts by normalized source name.
 		String killCountKey = sourceName.replace(":", "").toLowerCase(Locale.ENGLISH);
 		Integer killCount = configManager.getRSProfileConfiguration("killcount", killCountKey, int.class);
 		return killCount == null ? 0 : killCount;

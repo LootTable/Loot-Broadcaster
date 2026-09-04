@@ -16,6 +16,8 @@ tested, and extended independently.
   total XP.
 - Detects curated notable NPC item drops and formats item broadcasts with source
   name, kill count, and duplicate-drop quantity handling.
+- Detects pet drops from RuneLite chat messages by pairing pet trigger messages
+  with nearby untradeable drop or collection log messages.
 - Provides configurable send/show toggles for XP milestones, item drops, and pet
   drops.
 - Includes unit tests for event models, detectors, notable-drop rules, and message
@@ -43,6 +45,24 @@ Launch RuneLite in developer mode with the plugin loaded:
 ./gradlew run
 ```
 
+## Manual Smoke Test Checklist
+
+Some behavior depends on RuneLite and OSRS client events, so it should be checked
+manually in developer mode before release.
+
+- Enable networking and the relevant send toggles in the plugin config.
+- Confirm a level milestone queues a local broadcast at level 99, 110, or 120.
+- Confirm a skill XP milestone queues a local broadcast at 100 million or 200
+  million XP.
+- Confirm an overall XP milestone queues a local broadcast at 1 billion, 2
+  billion, 3 billion, or maximum total XP.
+- Confirm a notable NPC item drop queues a local broadcast with item name, source
+  name, kill count, and quantity handling.
+- Confirm pet drops queue a local broadcast only after the pet trigger message is
+  followed by an untradeable drop or collection log message.
+- Confirm pet-drop detection requires OSRS untradeable loot notifications or
+  collection log messages to expose the pet name in chat.
+
 ## Architecture
 
 - `model` contains immutable broadcast event types and validation guards.
@@ -53,11 +73,11 @@ Launch RuneLite in developer mode with the plugin loaded:
 
 ## Roadmap
 
-- Add real pet-drop detection.
 - Add backend delivery for opt-in cross-player broadcasts.
 - Add one-time cosmetic broadcast rules for jars, dusts, kits, cosmetics, and boat
   paint.
 - Add delayed broadcasts for wilderness-sensitive drops such as amulet of eternal
-  glory & pets.
+  glory and pets.
 - Improve source-specific drop handling for cases where the same item can come from
   multiple activities.
+- Limit broadcast visibility to friends only on the server side.

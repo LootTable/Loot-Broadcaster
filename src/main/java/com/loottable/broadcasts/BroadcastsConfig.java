@@ -12,7 +12,7 @@ public interface BroadcastsConfig extends Config
 	@ConfigItem(
 		keyName = "enableNetworking",
 		name = "Enable networking",
-		description = "Allows the plugin to send and receive achievement broadcasts"
+		description = "Allows the plugin to send and receive achievement broadcasts."
 	)
 	default boolean enableNetworking()
 	{
@@ -21,8 +21,8 @@ public interface BroadcastsConfig extends Config
 
 	@ConfigItem(
 		keyName = "sendXpMilestones",
-		name = "Send XP milestones",
-		description = "Allows the plugin to send your XP milestone broadcasts"
+		name = "Send level milestones",
+		description = "Allows the plugin to send your level milestone broadcasts."
 	)
 	default boolean sendXpMilestones()
 	{
@@ -31,9 +31,9 @@ public interface BroadcastsConfig extends Config
 
 	@ConfigItem(
 		keyName = "showXpMilestones",
-		name = "Show XP milestones",
-		description = "Shows XP milestone broadcasts from other players"
-	)	
+		name = "Show level milestones",
+		description = "Shows level milestone broadcasts from other players."
+	)
 	default boolean showXpMilestones()
 	{
 		return false;
@@ -42,7 +42,7 @@ public interface BroadcastsConfig extends Config
 	@ConfigItem(
 		keyName = "sendItemDrops",
 		name = "Send item drops",
-		description = "Allows the plugin to send your item drops to others"
+		description = "Allows the plugin to send your notable item drop broadcasts."
 	)
 	default boolean sendItemDrops()
 	{
@@ -52,7 +52,7 @@ public interface BroadcastsConfig extends Config
 	@ConfigItem(
 		keyName = "showItemDrops",
 		name = "Show item drops",
-		description = "Shows item drop broadcasts from other players"
+		description = "Shows notable item drop broadcasts from other players."
 	)
 	default boolean showItemDrops()
 	{
@@ -62,7 +62,7 @@ public interface BroadcastsConfig extends Config
 	@ConfigItem(
 		keyName = "sendPetDrops",
 		name = "Send pet drops",
-		description = "(TURN ON UNTRADEABLE LOOT NOTIFICATIONS) Allows the plugin to send your pet drop broadcasts to others."
+		description = "Allows the plugin to send your pet drop broadcasts. Requires OSRS untradeable loot notifications."
 	)
 	default boolean sendPetDrops()
 	{
@@ -72,7 +72,7 @@ public interface BroadcastsConfig extends Config
 	@ConfigItem(
 		keyName = "showPetDrops",
 		name = "Show pet drops",
-		description = "Show pet drop broadcasts from other players"
+		description = "Shows pet drop broadcasts from other players."
 	)
 	default boolean showPetDrops()
 	{
@@ -82,7 +82,7 @@ public interface BroadcastsConfig extends Config
 	@ConfigItem(
 		keyName = "sendSkillXpMilestones",
 		name = "Send skill XP milestones",
-		description = "Allows the plugin to send your skill XP milestone broadcasts to others"
+		description = "Allows the plugin to send your skill XP milestone broadcasts."
 	)
 	default boolean sendSkillXpMilestones()
 	{
@@ -92,7 +92,7 @@ public interface BroadcastsConfig extends Config
 	@ConfigItem(
 		keyName = "showSkillXpMilestones",
 		name = "Show skill XP milestones",
-		description = "Shows skill XP milestone broadcasts from other players"
+		description = "Shows skill XP milestone broadcasts from other players."
 	)
 	default boolean showSkillXpMilestones()
 	{
@@ -102,7 +102,7 @@ public interface BroadcastsConfig extends Config
 	@ConfigItem(
 		keyName = "sendOverallXpMilestones",
 		name = "Send overall XP milestones",
-		description = "Allows the plugin to send your overall XP milestone broadcasts to others"
+		description = "Allows the plugin to send your overall XP milestone broadcasts."
 	)
 	default boolean sendOverallXpMilestones()
 	{
@@ -112,11 +112,10 @@ public interface BroadcastsConfig extends Config
 	@ConfigItem(
 		keyName = "showOverallXpMilestones",
 		name = "Show overall XP milestones",
-		description = "Shows overall XP milestone broadcasts from other players"
+		description = "Shows overall XP milestone broadcasts from other players."
 	)
 	default boolean showOverallXpMilestones()
 	{
 		return false;
 	}
-
 }
