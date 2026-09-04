@@ -30,6 +30,7 @@ public class PetDropDetector
 		String cleanMessage = Text.removeTags(message).trim();
 		if (PET_MESSAGES.contains(cleanMessage))
 		{
+			// The pet trigger confirms a pet happened, but the following chat lines carry the pet name.
 			pendingPetDrop = true;
 			pendingPetDropMessagesRemaining = PET_DROP_MESSAGE_WINDOW;
 			return Optional.empty();
@@ -43,6 +44,7 @@ public class PetDropDetector
 		Optional<String> petName = getPetNameFromPetDropMessage(cleanMessage);
 		if (petName.isPresent())
 		{
+			// Once a name is found, clear the pending window so later untradeable drops do not get misread.
 			reset();
 			return petName;
 		}
